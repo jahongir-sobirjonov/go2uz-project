@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://go2uz_user:CxKRD9jLGwq3CfxuCOJCRrwOm3zyEZQs@dpg-cpulfj6ehbks73ek1hgg-a.oregon-postgres.render.com/go2uz_db
-    username: go2uz_user
-    password: CxKRD9jLGwq3CfxuCOJCRrwOm3zyEZQs
+    url: jdbc:postgresql://postgres:GoNWEMdOIrTghqpJbGeTQhJNzfhuySDP@viaduct.proxy.rlwy.net:29627/railway
+    username: postgres
+    password: GoNWEMdOIrTghqpJbGeTQhJNzfhuySDP
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
