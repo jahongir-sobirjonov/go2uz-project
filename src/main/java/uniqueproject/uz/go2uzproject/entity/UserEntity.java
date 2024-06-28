@@ -31,8 +31,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String telegramUsername;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserType userType; // tourist or local
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

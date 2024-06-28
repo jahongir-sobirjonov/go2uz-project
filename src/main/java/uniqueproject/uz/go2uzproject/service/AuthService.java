@@ -12,7 +12,6 @@ import uniqueproject.uz.go2uzproject.config.security.JwtService;
 import uniqueproject.uz.go2uzproject.dto.auth.SignUp;
 import uniqueproject.uz.go2uzproject.dto.response.AuthDto;
 import uniqueproject.uz.go2uzproject.entity.UserEntity;
-import uniqueproject.uz.go2uzproject.entity.UserType;
 import uniqueproject.uz.go2uzproject.entity.enums.UserRole;
 import uniqueproject.uz.go2uzproject.exception.DataAlreadyExistsException;
 import uniqueproject.uz.go2uzproject.exception.DataNotFoundException;
@@ -32,14 +31,13 @@ public class AuthService {
 
     private AuthenticationManager authenticationManager;
 
-    public String addUser(SignUp signUp, UserType userType) {
+    public String addUser(SignUp signUp) {
         if (userRepository.existsByEmail(signUp.getEmail())) {
             throw new DataAlreadyExistsException("This email already exists: " + signUp.getEmail());
         }
 
         UserEntity user = modelMapper.map(signUp, UserEntity.class);
         user.setPassword(passwordEncoder.encode(signUp.getPassword()));
-        user.setUserType(userType);
         user.setRole(UserRole.USER);
         userRepository.save(user);
 

@@ -20,8 +20,8 @@ public class AuthController {
 
     @PermitAll
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signUp(@RequestBody SignUp signUp, UserType userType){
-        return ResponseEntity.ok().body(authService.addUser(signUp, userType));
+    public ResponseEntity<String> signUp(@RequestBody SignUp signUp){
+        return ResponseEntity.ok().body(authService.addUser(signUp));
     }
 
     @PermitAll

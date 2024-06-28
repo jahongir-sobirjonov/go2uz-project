@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"author", "tour_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"author_id", "tour_id"}))
 public class Rating extends BaseEntity {
     @ManyToOne
     private UserEntity author;
