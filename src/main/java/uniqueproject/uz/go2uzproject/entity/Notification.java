@@ -24,6 +24,9 @@ public class Notification extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
+
     private LocalDateTime createdDate;
 
 }

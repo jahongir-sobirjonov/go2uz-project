@@ -21,11 +21,6 @@ import java.util.UUID;
 @RequestMapping("agencies")
 public class AgencyController { // admin controller
     private final AgencyService agencyService;
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/create-agency")
-//    public ResponseEntity<AgencyResponse> createAgency(@RequestBody AgencyRequest agencyRequest, @RequestParam List<ServiceType> serviceType) {
-//        return ResponseEntity.status(200).body(agencyService.createAgency(agencyRequest, serviceType));
-//    }
 
    @GetMapping("/get{id}")
     public Optional<Agency> getAgencies(@PathVariable UUID id) {

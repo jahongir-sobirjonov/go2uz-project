@@ -10,11 +10,8 @@ import uniqueproject.uz.go2uzproject.entity.Notification;
 import uniqueproject.uz.go2uzproject.entity.Order;
 import uniqueproject.uz.go2uzproject.entity.UserEntity;
 import uniqueproject.uz.go2uzproject.repository.NotificationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
-import java.time.format.DateTimeFormatter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +28,7 @@ public class NotificationService {
         String subject = "New Booking Request";
         String message = "New booking request for tour: " + order.getTour().getTitle();
         sendEmail(order.getTour().getAgency().getOwner().getEmail(), subject, message);
-        saveNotification(message, order.getTour().getAgency().getOwner(), null);
+        saveNotification(message, order.getTour().getAgency().getOwner(), order.getTour().getAgency(), order);
     }
 
     public void notifyUser(Order order) {
@@ -39,7 +36,7 @@ public class NotificationService {
         String message = "Your booking for tour: " + order.getTour().getTitle() +
                 " has been " + order.getStatus().name().toLowerCase();
         sendEmail(order.getUser().getEmail(), subject, message);
-        saveNotification(message, order.getUser(), order.getTour().getAgency());
+        saveNotification(message, order.getUser(), order.getTour().getAgency(), order);
     }
 
     private void sendEmail(String to, String subject, String text) {
@@ -55,12 +52,13 @@ public class NotificationService {
         mailSender.send(message);
     }
 
-    private void saveNotification(String message, UserEntity user, Agency agency) {
+    private void saveNotification(String message, UserEntity user, Agency agency, Order order) {
         Notification notification = Notification.builder()
                 .message(message)
                 .user(user)
                 .agency(agency)
                 .createdDate(LocalDateTime.now())
+                .order(order)
                 .build();
         notificationRepository.save(notification);
     }
