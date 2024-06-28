@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://go2uz.c54ug4e4oh9j.eu-north-1.rds.amazonaws.com:5432/go2uz
+    url: jdbc:postgresql://go2uzdb.c54ug4e4oh9j.eu-north-1.rds.amazonaws.com:5432/go2uzdb
     username: postgres
-    password: jahongir0530
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
