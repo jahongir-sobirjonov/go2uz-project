@@ -77,6 +77,14 @@ public class RatingService {
 
 
     public void deleteRating(UUID ratingId) {
+        Rating rating = ratingRepository.findById(ratingId)
+                .orElseThrow(() -> new DataNotFoundException("Rating not found"));
+        Tour tour = rating.getTour();
+        Agency agency = tour.getAgency();
+        agency.setRating(agency.getRating() - (double) rating.getRating() / 10);
+        agencyRepository.save(agency);
+        tour.setRating(tour.getRating() -  rating.getRating());
+        tourRepository.save(tour);
         ratingRepository.deleteById(ratingId);
     }
 
