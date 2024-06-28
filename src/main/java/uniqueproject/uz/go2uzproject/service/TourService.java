@@ -45,6 +45,7 @@ public class TourService {
                 .services(tourRequest.getServices())
                 .title(tourRequest.getTitle())
                 .pictures(tourRequest.getPictures())
+                .cancellationPolicy(tourRequest.getCancellationPolicy())
                 .build();
         tourRepository.save(newTour);
         agency.getTours().add(newTour);
@@ -57,8 +58,6 @@ public class TourService {
     }
 
     public String updateTour(TourUpdateRequest tourUpdateRequest) {
-
-
 
         Tour tour = tourRepository.findById(tourUpdateRequest.getTourId())
                 .orElseThrow(() -> new EntityNotFoundException("Tour not found with id: " + tourUpdateRequest.getTourId()));
@@ -95,6 +94,9 @@ public class TourService {
         }
         if (tourUpdateRequest.getTitle() != null) {
             tour.setTitle(tourUpdateRequest.getTitle());
+        }
+        if (tourUpdateRequest.getCancellationPolicy() != null){
+            tour.setCancellationPolicy(tourUpdateRequest.getCancellationPolicy());
         }
 
         tour.setUpdatedDate(LocalDateTime.now());

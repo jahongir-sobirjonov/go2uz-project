@@ -28,8 +28,7 @@ public class Agency extends BaseEntity {
    @Enumerated(EnumType.STRING)
     private List<ServiceType> serviceTypes;
 
-    private Integer countOfOrders;
-    private Integer rating;
+    private Double rating;
 
     @OneToMany(mappedBy = "agency", fetch = FetchType.LAZY)
     private List<Notification> notifications;

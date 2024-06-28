@@ -3,6 +3,7 @@ package uniqueproject.uz.go2uzproject.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uniqueproject.uz.go2uzproject.dto.request.RatingRequest;
 import uniqueproject.uz.go2uzproject.dto.response.RatingResponse;
@@ -17,14 +18,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RatingController {
     private final RatingService ratingService;
-
-    @PostMapping
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/add-rating")
     public ResponseEntity<RatingResponse> leaveRating(@Valid @RequestBody RatingRequest ratingRequest, Principal principal) {
         RatingResponse ratingResponse = ratingService.addRating(ratingRequest, UUID.fromString(principal.getName()));
         return ResponseEntity.ok(ratingResponse);
     }
 
-    @DeleteMapping("/{ratingId}")
+
+    @DeleteMapping("/cancel-rating/{ratingId}")
     public ResponseEntity<Void> deleteRating(@PathVariable UUID ratingId) {
         ratingService.deleteRating(ratingId);
         return ResponseEntity.noContent().build();
@@ -37,7 +39,7 @@ public class RatingController {
     }
 
     @GetMapping("/tour/{tourId}/average")
-    public ResponseEntity<Double> getAverageRatingByTour(@PathVariable UUID tourId) {
+    public ResponseEntity<Double> getAverageRatingByTour(@PathVariable UUID tourId) { // Tur bo'yicha o'rtacha reytingni olish
         double averageRating = ratingService.getAverageRatingByTour(tourId);
         return ResponseEntity.ok(averageRating);
     }

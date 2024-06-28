@@ -69,6 +69,7 @@ public class OrderService {
 
         // Update available seats for the tour
         tour.setAvailableSeats(tour.getAvailableSeats() - orderRequest.getNumberOfSeats());
+        tour.setCountOfOrders(orderRequest.getNumberOfSeats());
         if (tour.getAvailableSeats() == 0) {
             tour.setStatus(TourStatus.FULL);
         }

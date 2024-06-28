@@ -25,4 +25,5 @@ public class TourUpdateRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer availableSeats;
+    private String cancellationPolicy;
 }

@@ -17,7 +17,7 @@ public class AgencyResponse {
     private List<TourResponse> tours;
     private List<ServiceType> serviceTypes;
     private Integer countOfOrders;
-    private Integer rating;
+    private Double rating;
 }
 
 

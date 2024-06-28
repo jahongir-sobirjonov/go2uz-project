@@ -1,8 +1,10 @@
 package uniqueproject.uz.go2uzproject.controller;
 
+import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uniqueproject.uz.go2uzproject.dto.request.OrderRequest;
 import uniqueproject.uz.go2uzproject.dto.response.OrderResponse;
@@ -21,7 +23,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ModelMapper modelMapper;
 
-
+    @PermitAll
     @PostMapping("/booking-tour")
     public ResponseEntity<Map<String, String>> orderTour(@RequestBody OrderRequest orderRequest) {
         String paymentUrl = orderService.orderTour(orderRequest);
@@ -29,6 +31,7 @@ public class OrderController {
         response.put("url", paymentUrl);
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/get-orders-by-userId{userId}")
     public ResponseEntity<List<OrderResponse>> getOrdersByUserId(@PathVariable UUID userId) {
@@ -46,6 +49,7 @@ public class OrderController {
 //        return ResponseEntity.status(200).body(paymentResponse);
 //    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/update-order-status/{orderId}")
     public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable UUID orderId, @RequestBody OrderStatus status) {
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, status));

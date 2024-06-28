@@ -50,8 +50,7 @@ public class AgencyService {
         UserEntity owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
         Agency agency = modelMapper.map(agencyRequest, Agency.class);
-        agency.setCountOfOrders(0);
-        agency.setRating(0);
+        agency.setRating(0.0);
         agency.setOwner(owner);
         agency.setServiceTypes(serviceTypes);
         agencyRepository.save(agency);
@@ -59,10 +58,7 @@ public class AgencyService {
         return AgencyResponse.builder()
                 .id(agency.getId())
                 .name(agency.getName())
-//                .tours(modelMapper.map(agency.getTours(), new TypeToken<List<AgencyResponse>>() {
-//                }.getType()))
                 .serviceTypes(agency.getServiceTypes())
-                .countOfOrders(agency.getCountOfOrders())
                 .rating(agency.getRating())
                 .build();
 
