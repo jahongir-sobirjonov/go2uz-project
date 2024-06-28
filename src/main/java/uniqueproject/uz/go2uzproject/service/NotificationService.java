@@ -1,13 +1,20 @@
 package uniqueproject.uz.go2uzproject.service;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import uniqueproject.uz.go2uzproject.entity.Agency;
 import uniqueproject.uz.go2uzproject.entity.Notification;
 import uniqueproject.uz.go2uzproject.entity.Order;
 import uniqueproject.uz.go2uzproject.entity.UserEntity;
 import uniqueproject.uz.go2uzproject.repository.NotificationRepository;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -16,24 +23,43 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationRepository notificationRepository;
+    private final JavaMailSender mailSender;
+
 
 
     public void notifyAgency(Order order) {
+        String subject = "New Booking Request";
         String message = "New booking request for tour: " + order.getTour().getTitle();
-        Notification notification = Notification.builder()
-                .message(message)
-                .agency(order.getTour().getAgency())
-                .createdDate(LocalDateTime.now())
-                .build();
-        notificationRepository.save(notification);
+        sendEmail(order.getTour().getAgency().getOwner().getEmail(), subject, message);
+        saveNotification(message, order.getTour().getAgency().getOwner(), null);
     }
 
     public void notifyUser(Order order) {
-        String message = "Your booking for tour: " + order.getTour().getTitle() + " has been " + order.getStatus().name().toLowerCase();
+        String subject = "Booking Status Update";
+        String message = "Your booking for tour: " + order.getTour().getTitle() +
+                " has been " + order.getStatus().name().toLowerCase();
+        sendEmail(order.getUser().getEmail(), subject, message);
+        saveNotification(message, order.getUser(), order.getTour().getAgency());
+    }
+
+    private void sendEmail(String to, String subject, String text) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text, false);
+        } catch (MessagingException e) {
+            e.printStackTrace(); // Handle exception gracefully
+        }
+        mailSender.send(message);
+    }
+
+    private void saveNotification(String message, UserEntity user, Agency agency) {
         Notification notification = Notification.builder()
                 .message(message)
-                .user(order.getUser())
-                .agency(order.getTour().getAgency())
+                .user(user)
+                .agency(agency)
                 .createdDate(LocalDateTime.now())
                 .build();
         notificationRepository.save(notification);

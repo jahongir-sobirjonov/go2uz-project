@@ -12,7 +12,8 @@ import java.util.UUID;
 @Builder
 
 public class Agency extends BaseEntity {
-    private UUID ownerId;
+    @ManyToOne
+    private UserEntity owner;
 
     @Column(unique = true)
     private String name;

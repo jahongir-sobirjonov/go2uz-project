@@ -36,6 +36,7 @@ public class TourService {
                 .agency(agency)
                 .category(tourRequest.getCategory())
                 .cost(tourRequest.getCost())
+                .status(tourRequest.getStatus())
                 .startDate(tourRequest.getStartDate())
                 .endDate(tourRequest.getEndDate())
                 .availableSeats(tourRequest.getAvailableSeats())

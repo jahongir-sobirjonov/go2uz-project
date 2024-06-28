@@ -63,8 +63,9 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
 
-        // Notify agency
+        // Notify agency and user
         notificationService.notifyAgency(order);
+        notificationService.notifyUser(order);
 
         // Update available seats for the tour
         tour.setAvailableSeats(tour.getAvailableSeats() - orderRequest.getNumberOfSeats());
@@ -85,118 +86,6 @@ public class OrderService {
         return transaction.getUrl();
     }
 
-
-
-//    public PaymentResponseDTO payForOrder(PaymentRequestDTO paymentRequest) {
-//        Order order = orderRepository.findById(paymentRequest.getOrderId())
-//                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + paymentRequest.getOrderId()));
-//
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("id", paymentRequest.getOrderId().toString());
-//        data.put("amount", paymentRequest.getAmount());
-//        data.put("paymentMethod", paymentRequest.getPaymentMethod());
-//
-//        Map<String, Object> paymentResponse = paymeService.createTransaction(data);
-//
-//        if ("Transaction created successfully".equals(paymentResponse.get("result"))) {
-//            Transaction transaction = Transaction.builder()
-//                    .transaction(paymentResponse.get("transaction").toString())
-//                    .createTime(System.currentTimeMillis())
-//                    .state(1) // Assuming 1 means created
-//                    .build();
-//
-//            order.setTransaction(transaction);
-//            order.setStatus(OrderStatus.APPROVED);
-//            orderRepository.save(order);
-//
-//            notificationService.notifyUser(order);
-//
-//            PaymentResponseDTO responseDTO = new PaymentResponseDTO();
-//            responseDTO.setResult("Transaction created successfully");
-//            responseDTO.setMessage("Payment processed");
-//            responseDTO.setTransactionId(paymentResponse.get("transaction").toString());
-//            return responseDTO;
-//        } else {
-//            throw new RuntimeException("Payment failed");
-//        }
-//    }
-
-//    public PaymentResponseDTO payForOrder(PaymentRequestDTO paymentRequest) {
-//        Order order = orderRepository.findById(paymentRequest.getOrderId())
-//                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + paymentRequest.getOrderId()));
-//
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("id", paymentRequest.getOrderId().toString());
-//        data.put("amount", paymentRequest.getAmount());
-//        data.put("paymentMethod", paymentRequest.getPaymentMethod());
-//
-//        // Convert Map<String, Object> to PaymentRequestDTO
-//        PaymentRequestDTO requestDTO = new PaymentRequestDTO();
-//        requestDTO.setOrderId(UUID.fromString((String) data.get("id")));
-//        requestDTO.setAmount((Double) data.get("amount"));
-//        requestDTO.setPaymentMethod((String) data.get("paymentMethod"));
-//
-//        // Call the createTransaction method with PaymentRequestDTO
-//        Map<String, Object> paymentResponse = paymeService.createTransaction(requestDTO);
-//
-//        if ("Transaction created successfully".equals(paymentResponse.get("result"))) {
-//            Transaction transaction = Transaction.builder()
-//                    .transaction(paymentResponse.get("transaction").toString())
-//                    .createTime(System.currentTimeMillis())
-//                    .state(1) // Assuming 1 means created
-//                    .build();
-//
-//            order.setTransaction(transaction);
-//            order.setStatus(OrderStatus.APPROVED);
-//            orderRepository.save(order);
-//
-//            notificationService.notifyUser(order);
-//
-//            PaymentResponseDTO responseDTO = new PaymentResponseDTO();
-//            responseDTO.setResult("Transaction created successfully");
-//            responseDTO.setMessage("Payment processed");
-//            responseDTO.setTransactionId(paymentResponse.get("transaction").toString());
-//            return responseDTO;
-//        } else {
-//            throw new RuntimeException("Payment failed");
-//        }
-//    }
-
-
-
-//    public PaymentResponseDTO payForOrder(PaymentRequestDTO paymentRequest) {
-//        Order order = orderRepository.findById(paymentRequest.getOrderId())
-//                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + paymentRequest.getOrderId()));
-//
-//        // Pass paymentRequest directly to createTransaction method
-//        Map<String, Object> paymentResponse = paymeService.createTransaction(paymentRequest);
-//
-//        if ("Transaction created successfully".equals(paymentResponse.get("result"))) {
-//            Transaction transaction = Transaction.builder()
-//                    .transaction(paymentResponse.get("transaction").toString())
-//                    .createTime(System.currentTimeMillis())
-//                    .state(1) // Assuming 1 means created
-//                    .build();
-//
-//            order.setTransaction(transaction);
-//            order.setStatus(OrderStatus.APPROVED);
-//            orderRepository.save(order);
-//
-//            notificationService.notifyUser(order);
-//
-//            PaymentResponseDTO responseDTO = new PaymentResponseDTO();
-//            responseDTO.setResult("Transaction created successfully");
-//            responseDTO.setMessage("Payment processed");
-//            responseDTO.setTransactionId(paymentResponse.get("transaction").toString());
-//            return responseDTO;
-//        } else {
-//            throw new RuntimeException("Payment failed");
-//        }
-//    }
-
-
-
-
     public OrderResponse updateOrderStatus(UUID orderId, OrderStatus status) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
@@ -204,7 +93,8 @@ public class OrderService {
             order.setStatus(status);
             order.setUpdatedDate(LocalDateTime.now());
             Order updatedOrder = orderRepository.save(order);
-        // Notify user
+
+            // Notify user
             notificationService.notifyUser(order);
 
             OrderResponse orderResponse = modelMapper.map(updatedOrder, OrderResponse.class);
@@ -217,6 +107,8 @@ public class OrderService {
             throw new EntityNotFoundException("Order not found");
         }
     }
+
+
 
     public List<OrderResponse> getOrdersByUserId(UUID userId) {
         List<Order> myOrders =  orderRepository.findByUserId(userId);
