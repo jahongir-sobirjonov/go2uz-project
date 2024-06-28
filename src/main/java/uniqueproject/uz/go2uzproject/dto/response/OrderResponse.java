@@ -16,7 +16,6 @@ public class OrderResponse {
     private String phoneNumber;
     private OrderStatus status;
     private LocalDate orderDate;
-    private UUID orderId;
     private Integer numberOfSeats;
     private Double totalCost;
 //    private String url;
