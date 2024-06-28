@@ -16,14 +16,12 @@ import uniqueproject.uz.go2uzproject.service.PasswordResetService;
 public class PasswordResetController {
 
     private final PasswordResetService passwordResetService;
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/request")
     public ResponseEntity<String> requestPasswordReset(@RequestBody PasswordResetRequest request) {
         passwordResetService.sendPasswordResetLink(request.getEmail());
         return ResponseEntity.ok("Password reset link sent.");
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/reset")
     public ResponseEntity<String> resetPassword(@RequestBody PasswordResetDto passwordResetDto) {
         passwordResetService.resetPassword(passwordResetDto.getToken(), passwordResetDto.getNewPassword());

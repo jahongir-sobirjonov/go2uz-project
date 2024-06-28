@@ -43,13 +43,19 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByTourId(tourId));
     }
 
+    @GetMapping("/orders-by-agency/{agencyId}")
+    public ResponseEntity<List<OrderResponse>> getOrdersByAgency(@PathVariable UUID agencyId) {
+        List<OrderResponse> orders = orderService.getOrdersByAgency(agencyId);
+        return ResponseEntity.ok(orders);
+    }
+
 //    @PostMapping("/pay")
 //    public ResponseEntity<PaymentResponseDTO> payForOrder(@RequestBody PaymentRequestDTO paymentRequest) {
 //        PaymentResponseDTO paymentResponse = orderService.payForOrder(paymentRequest);
 //        return ResponseEntity.status(200).body(paymentResponse);
 //    }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('AGENCY')")
     @PatchMapping("/update-order-status/{orderId}")
     public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable UUID orderId, @RequestBody OrderStatus status) {
         return ResponseEntity.ok(orderService.updateOrderStatus(orderId, status));

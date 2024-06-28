@@ -2,6 +2,7 @@ package uniqueproject.uz.go2uzproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    //@PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PutMapping("/update-user-role/{userId}/role")
     public ResponseEntity<UserResponse> updateUserRole(
             @PathVariable UUID userId,

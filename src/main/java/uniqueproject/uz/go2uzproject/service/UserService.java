@@ -34,17 +34,17 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(UUID.fromString(principal.getName()))
                 .orElseThrow(() -> new DataNotFoundException("User not found!"));;
         UserRole role = userEntity.getRole();
-        if (role == ADMIN){
+        if (role == AGENCY){
             UserResponse adminResponse = modelMapper.map(userEntity, UserResponse.class);
-            adminResponse.setRole(ADMIN);
+            adminResponse.setRole(AGENCY);
             return (T) adminResponse;
         } else if (role == USER) {
             UserResponse userResponse =  modelMapper.map(userEntity,UserResponse.class);
             userResponse.setRole(USER);
             return (T)userResponse;
-        } else if (role == Manager) {
+        } else if (role == MANAGER) {
             UserResponse userResponse = modelMapper.map(userEntity, UserResponse.class);
-            userResponse.setRole(Manager);
+            userResponse.setRole(MANAGER);
             return (T) userResponse;
         } else if (role == SUPER_ADMIN) {
                 UserResponse userResponse =  modelMapper.map(userEntity,UserResponse.class);

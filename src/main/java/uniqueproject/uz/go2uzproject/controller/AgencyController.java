@@ -36,7 +36,7 @@ public class AgencyController { // admin controller
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('AGENCY')")
     @PostMapping("/create-agency")
     public ResponseEntity<AgencyResponse> createAgency(
             @Valid @RequestBody AgencyRequest agencyRequest,

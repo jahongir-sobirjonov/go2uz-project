@@ -21,6 +21,7 @@ import uniqueproject.uz.go2uzproject.repository.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -147,6 +148,21 @@ public class OrderService {
 
         }
         return orderResponses;
+    }
+
+
+
+    public List<OrderResponse> getOrdersByAgency(UUID agencyId) {
+        List<Order> orders = orderRepository.findByTour_Agency_Id(agencyId);
+        return orders.stream()
+                .map(order -> OrderResponse.builder()
+                        .id(order.getId())
+                        .userId(order.getUser().getId())
+                        .tourId(order.getTour().getId())
+                        .status(order.getStatus())
+                        .orderDate(order.getOrderDate())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
 

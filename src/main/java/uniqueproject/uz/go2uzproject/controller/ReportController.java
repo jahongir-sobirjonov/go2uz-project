@@ -21,7 +21,7 @@ import java.io.ByteArrayInputStream;
 public class ReportController {
     private final ReportService reportService;
 
-    @PostMapping("/orders")
+    @PostMapping("/generate-order-report")
     public ResponseEntity<byte[]> generateOrderReport(
             @Valid @RequestBody OrderReportRequest reportRequest,
             @RequestParam ReportFormat format) {

@@ -3,6 +3,7 @@ package uniqueproject.uz.go2uzproject.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uniqueproject.uz.go2uzproject.dto.request.ReviewRequest;
 import uniqueproject.uz.go2uzproject.dto.response.ReviewResponse;
@@ -23,7 +24,7 @@ public class ReviewController {
         ReviewResponse reviewResponse = reviewService.writeReview(reviewRequest, UUID.fromString(principal.getName()));
         return ResponseEntity.ok(reviewResponse);
     }
-
+    @PreAuthorize("hasRole('MANAGER') or hasRole('SUPER_ADMIN')")
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable UUID reviewId) {
         reviewService.deleteReview(reviewId);

@@ -25,7 +25,7 @@ public class RatingController {
         return ResponseEntity.ok(ratingResponse);
     }
 
-
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/cancel-rating/{ratingId}")
     public ResponseEntity<Void> deleteRating(@PathVariable UUID ratingId) {
         ratingService.deleteRating(ratingId);
