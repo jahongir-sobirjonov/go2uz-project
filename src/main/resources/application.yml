@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://go2uzdb.c54ug4e4oh9j.eu-north-1.rds.amazonaws.com:5432/go2uzdb
+    url: jdbc:postgresql://localhost:5432/go2uz_db
     username: postgres
-    password: postgres
+    password: 1
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
