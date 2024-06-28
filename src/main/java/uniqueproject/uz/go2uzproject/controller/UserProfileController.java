@@ -18,10 +18,6 @@ import java.util.UUID;
 @RequestMapping("/profile")
 @RequiredArgsConstructor
 public class UserProfileController {
-
-    private final UserRepository userRepository;
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
     private final UserProfileService userProfileService;
 
     @GetMapping("/me")
@@ -29,12 +25,6 @@ public class UserProfileController {
 
         return ResponseEntity.ok(userProfileService.getUserProfile(UUID.fromString(principal.getName())));
     }
-
-//    @GetMapping("/me2")
-//    public ResponseEntity<?> getUserProfile(@AuthenticationPrincipal UserDetails userDetails) {
-//        return ResponseEntity.ok(userProfileService.getUserProfile(UUID.fromString(userDetails.getUsername())));
-//    }
-
 
 
     @PatchMapping("/update-profile")
