@@ -44,7 +44,7 @@ public class Tour extends BaseEntity {
 
     private Integer countOfOrders;
 
-    private Integer rating;
+    private Double rating;
 
 
 

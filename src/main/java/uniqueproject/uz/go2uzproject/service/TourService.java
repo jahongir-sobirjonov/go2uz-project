@@ -27,6 +27,7 @@ public class TourService {
     private final TourRepository tourRepository;
     private final AgencyRepository agencyRepository;
     private final ModelMapper modelMapper;
+    private final RatingService ratingService;
 
     public TourResponse addTourToAgency(UUID agencyId, TourRequest tourRequest) {
         Agency agency = agencyRepository.findById(agencyId)
@@ -158,6 +159,7 @@ public class TourService {
         TourResponse tourResponse = modelMapper.map(tour, TourResponse.class);
         tourResponse.setId(tour.getId());
         tourResponse.setAgencyName(tour.getAgency().getName());
+        tourResponse.setRatings(ratingService.getAverageRatingByTour(tourId));
         return tourResponse;
     }
 }
