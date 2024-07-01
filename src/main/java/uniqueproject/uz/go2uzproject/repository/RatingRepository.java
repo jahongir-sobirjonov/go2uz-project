@@ -2,6 +2,7 @@ package uniqueproject.uz.go2uzproject.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import uniqueproject.uz.go2uzproject.entity.Agency;
 import uniqueproject.uz.go2uzproject.entity.Rating;
 import uniqueproject.uz.go2uzproject.entity.Tour;
 
@@ -13,4 +14,8 @@ public interface RatingRepository extends JpaRepository<Rating, UUID> {
     List<Rating> findByTourId(UUID tourId);
 
     boolean existsByAuthorIdAndTour(UUID authorId, Tour tour);
+
+    List<Rating> findByTourAgency(Agency agency);
+
+    List<Rating> findByTour(Tour tour);
 }

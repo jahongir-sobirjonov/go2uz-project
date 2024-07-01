@@ -38,10 +38,16 @@ public class RatingController {
         return ResponseEntity.ok(ratings);
     }
 
-    @GetMapping("/tour/{tourId}/average")
-    public ResponseEntity<Double> getAverageRatingByTour(@PathVariable UUID tourId) { // Tur bo'yicha o'rtacha reytingni olish
-        double averageRating = ratingService.getAverageRatingByTour(tourId);
-        return ResponseEntity.ok(averageRating);
-    }
+//    @GetMapping("/tour/{tourId}/average")
+//    public ResponseEntity<Double> getAverageRatingByTour(@PathVariable UUID tourId) { // Tur bo'yicha o'rtacha reytingni olish
+//        double averageRating = ratingService.getAverageRatingByTour(tourId);
+//        return ResponseEntity.ok(averageRating);
+//    }
+//
+//    @GetMapping("/agency/{agencyId}/average")
+//    public ResponseEntity<Double> getAverageRatingByAgency(@PathVariable UUID agencyId) {
+//        double averageRating = ratingService.getAverageRatingByAgency(agencyId);
+//        return ResponseEntity.ok(averageRating);
+//    }
 
 }
