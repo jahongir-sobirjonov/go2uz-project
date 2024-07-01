@@ -28,4 +28,5 @@ public class TourResponse {
     private List<String> services;
     private String cancellationPolicy;
     private List<ReviewResponse> reviews;
+    private Double ratings;
 }
