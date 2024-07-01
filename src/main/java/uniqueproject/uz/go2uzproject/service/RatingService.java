@@ -13,7 +13,6 @@ import uniqueproject.uz.go2uzproject.repository.AgencyRepository;
 import uniqueproject.uz.go2uzproject.repository.RatingRepository;
 import uniqueproject.uz.go2uzproject.repository.TourRepository;
 import uniqueproject.uz.go2uzproject.repository.UserRepository;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,7 +25,6 @@ public class RatingService {
     private final UserRepository userRepository;
     private final AgencyRepository agencyRepository;
 
-
     public RatingResponse addRating(RatingRequest ratingRequest, UUID authorId) {
         // Fetch the tour and author from the repositories
         Tour tour = tourRepository.findById(ratingRequest.getTourId())
@@ -38,29 +36,6 @@ public class RatingService {
         if (ratingRepository.existsByAuthorIdAndTour(authorId, tour)) {
             throw new IllegalArgumentException("User has already rated this tour");
         }
-        Agency agency = tour.getAgency();
-
-        // Initialize tour rating if null
-        if (tour.getRating() == null) {
-            tour.setRating(0);
-        }
-
-        // Initialize agency rating if null
-        if (tour.getAgency().getRating() == null) {
-            tour.getAgency().setRating(0.0);
-        }
-
-        // Update the agency rating
-        if (ratingRequest.getRating() != 0) {
-            agency.setRating(agency.getRating() + (double) ratingRequest.getRating() / 10);
-        } else {
-            agency.setRating(agency.getRating() + ratingRequest.getRating());
-        }
-        agencyRepository.save(agency);
-
-        // Update the tour rating
-        tour.setRating(tour.getRating() + ratingRequest.getRating());
-        tourRepository.save(tour);
 
         // Create a new Rating entity and save it
         Rating rating = Rating.builder()
@@ -71,9 +46,36 @@ public class RatingService {
 
         rating = ratingRepository.save(rating);
 
+        // Update the tour rating
+        updateTourAverageRating(tour);
+
+        // Update the agency rating
+        updateAgencyAverageRating(tour.getAgency());
+
         // Return the RatingResponse DTO
         return convertToDto(rating);
     }
+
+    private void updateTourAverageRating(Tour tour) {
+        List<Rating> ratings = ratingRepository.findByTour(tour);
+        double averageRating = ratings.stream()
+                .mapToInt(Rating::getRating)
+                .average()
+                .orElse(0.0);
+        tour.setRating(averageRating);
+        tourRepository.save(tour);
+    }
+
+    private void updateAgencyAverageRating(Agency agency) {
+        List<Tour> ratedTours = tourRepository.findAllByAgencyAndRatingIsNotNull(agency);
+        double averageRating = ratedTours.stream()
+                .mapToDouble(Tour::getRating)
+                .average()
+                .orElse(0.0);
+        agency.setRating(averageRating);
+        agencyRepository.save(agency);
+    }
+
 
 
     public void deleteRating(UUID ratingId) {
@@ -97,6 +99,15 @@ public class RatingService {
         List<Rating> ratings = ratingRepository.findByTourId(tourId);
         return ratings.stream().mapToInt(Rating::getRating).average().orElse(0.0);
     }
+
+//    public double getAverageRatingByAgency(UUID agencyId) {
+//        List<Tour> tours = tourRepository.findByAgencyId(agencyId);
+//        List<Rating> ratings = tours.stream()
+//                .flatMap(tour -> ratingRepository.findByTourId(tour.getId()).stream())
+//                .collect(Collectors.toList());
+//        return ratings.stream().mapToInt(Rating::getRating).average().orElse(0.0);
+//    }
+
 
     private RatingResponse convertToDto(Rating rating) {
         return RatingResponse.builder()
