@@ -19,7 +19,7 @@ services:
       - "5433:5432"
     environment:
       POSTGRES_PASSWORD: 1
-      POSTGRES_USERNAME: postgres
+      POSTGRES_USER: postgres
       POSTGRES_DB: go2uz
     volumes:
       - pg_data:/var/lib/postgresql/data
