@@ -12,6 +12,7 @@ import uniqueproject.uz.go2uzproject.repository.ReviewRepository;
 import uniqueproject.uz.go2uzproject.repository.TourRepository;
 import uniqueproject.uz.go2uzproject.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -47,7 +48,11 @@ public class ReviewService {
 
     public List<ReviewResponse> getReviewsByTour(UUID tourId) {
         List<Review> reviews = reviewRepository.findByTourId(tourId);
-        return reviews.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<ReviewResponse> collect = new ArrayList<>();
+        for (Review review : reviews) {
+            collect.add(convertToDto(review));
+        }
+        return collect;
     }
 
     private ReviewResponse convertToDto(Review review) {

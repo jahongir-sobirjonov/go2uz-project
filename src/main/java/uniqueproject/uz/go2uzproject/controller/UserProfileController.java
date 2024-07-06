@@ -1,16 +1,10 @@
 package uniqueproject.uz.go2uzproject.controller;
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import uniqueproject.uz.go2uzproject.dto.request.UserProfileRequest;
-import uniqueproject.uz.go2uzproject.repository.UserRepository;
 import uniqueproject.uz.go2uzproject.service.UserProfileService;
-import uniqueproject.uz.go2uzproject.service.UserService;
-
-
 import java.security.Principal;
 import java.util.UUID;
 

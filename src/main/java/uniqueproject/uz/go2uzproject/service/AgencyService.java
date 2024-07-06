@@ -8,7 +8,6 @@ import uniqueproject.uz.go2uzproject.dto.request.AgencyRequest;
 import uniqueproject.uz.go2uzproject.dto.response.AgencyResponse;
 import uniqueproject.uz.go2uzproject.entity.Agency;
 import uniqueproject.uz.go2uzproject.entity.UserEntity;
-import uniqueproject.uz.go2uzproject.entity.enums.ServiceType;
 import uniqueproject.uz.go2uzproject.exception.DataAlreadyExistsException;
 import uniqueproject.uz.go2uzproject.exception.DataNotFoundException;
 import uniqueproject.uz.go2uzproject.repository.AgencyRepository;
@@ -43,7 +42,7 @@ public class AgencyService {
         }.getType());
     }
 
-    public AgencyResponse createAgency(AgencyRequest agencyRequest, List<ServiceType> serviceTypes, UUID ownerId) {
+    public AgencyResponse createAgency(AgencyRequest agencyRequest,  UUID ownerId) {
         if (agencyRepository.existsByName(agencyRequest.getName())) {
             throw new DataAlreadyExistsException("Agency already exists with this name : " + agencyRequest.getName());
         }
@@ -52,13 +51,11 @@ public class AgencyService {
         Agency agency = modelMapper.map(agencyRequest, Agency.class);
         agency.setRating(0.0);
         agency.setOwner(owner);
-        agency.setServiceTypes(serviceTypes);
         agencyRepository.save(agency);
 
         return AgencyResponse.builder()
                 .id(agency.getId())
                 .name(agency.getName())
-                .serviceTypes(agency.getServiceTypes())
                 .rating(agency.getRating())
                 .build();
 

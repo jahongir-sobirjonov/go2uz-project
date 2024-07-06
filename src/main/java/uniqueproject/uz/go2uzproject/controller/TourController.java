@@ -53,4 +53,14 @@ public class TourController {
         return ResponseEntity.ok(tourService.getTour(tourId));
     }
 
+    @GetMapping("/get-all-tours")
+    public ResponseEntity<List<TourResponse>> getAllTours() {
+        return ResponseEntity.ok(tourService.getAll());
+    }
+
+    @GetMapping("/get-tours-by-agencId{agencyId}")
+    public ResponseEntity<List<TourResponse>> getToursByAgencyId(@PathVariable UUID agencyId) {
+        return ResponseEntity.ok(tourService.getToursByAgencyId(agencyId));
+    }
+
 }

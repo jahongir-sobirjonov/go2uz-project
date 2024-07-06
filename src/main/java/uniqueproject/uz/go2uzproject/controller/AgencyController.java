@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import uniqueproject.uz.go2uzproject.dto.request.AgencyRequest;
 import uniqueproject.uz.go2uzproject.dto.response.AgencyResponse;
 import uniqueproject.uz.go2uzproject.entity.Agency;
-import uniqueproject.uz.go2uzproject.entity.enums.ServiceType;
 import uniqueproject.uz.go2uzproject.service.AgencyService;
 
 import java.security.Principal;
@@ -40,10 +39,9 @@ public class AgencyController { // admin controller
     @PostMapping("/create-agency")
     public ResponseEntity<AgencyResponse> createAgency(
             @Valid @RequestBody AgencyRequest agencyRequest,
-            @RequestParam List<ServiceType> serviceTypes,
             Principal principal) {
         return ResponseEntity.status(200)
-                .body(agencyService.createAgency(agencyRequest, serviceTypes, UUID.fromString(principal.getName())));
+                .body(agencyService.createAgency(agencyRequest, UUID.fromString(principal.getName())));
     }
 
 }

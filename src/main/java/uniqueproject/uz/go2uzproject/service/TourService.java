@@ -17,6 +17,7 @@ import uniqueproject.uz.go2uzproject.repository.AgencyRepository;
 import uniqueproject.uz.go2uzproject.repository.TourRepository;
 import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -161,5 +162,21 @@ public class TourService {
         tourResponse.setAgencyName(tour.getAgency().getName());
         tourResponse.setRatings(ratingService.getAverageRatingByTour(tourId));
         return tourResponse;
+    }
+
+    public List<TourResponse> getAll() {
+        List<TourResponse> tours = new ArrayList<>();
+        for (Tour tour : tourRepository.findAll()) {
+            tours.add(convertToDto(tour));
+        }
+        return tours;
+    }
+
+    public List<TourResponse> getToursByAgencyId(UUID agencyId) {
+        List<Tour> tours = tourRepository.findByAgencyId(agencyId);
+        List<TourResponse> tourResponses = new ArrayList<>();
+        tours.forEach(tour -> tourResponses.add(convertToDto(tour)));
+        return tourResponses;
+
     }
 }
