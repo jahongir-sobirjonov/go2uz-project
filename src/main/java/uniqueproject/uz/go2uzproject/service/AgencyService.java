@@ -6,6 +6,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import uniqueproject.uz.go2uzproject.dto.request.AgencyRequest;
 import uniqueproject.uz.go2uzproject.dto.response.AgencyResponse;
+import uniqueproject.uz.go2uzproject.dto.response.TourResponse;
 import uniqueproject.uz.go2uzproject.entity.Agency;
 import uniqueproject.uz.go2uzproject.entity.UserEntity;
 import uniqueproject.uz.go2uzproject.exception.DataAlreadyExistsException;
@@ -16,6 +17,7 @@ import uniqueproject.uz.go2uzproject.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class AgencyService {
     private final AgencyRepository agencyRepository;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final TourService tourService;
 
     public Optional<Agency> getById(UUID id) {
         return agencyRepository.findById(id);
@@ -60,4 +63,22 @@ public class AgencyService {
                 .build();
 
     }
+
+    public List<AgencyResponse> getAll() {
+        List<Agency> agencies = agencyRepository.findAll();
+        return agencies.stream()
+                .map(this::convertToAgencyResponse)
+                .collect(Collectors.toList());
+    }
+
+    private AgencyResponse convertToAgencyResponse(Agency agency) {
+        return AgencyResponse.builder()
+                .id(agency.getId())
+                .name(agency.getName())
+                .rating(agency.getRating())
+                .tours(tourService.getToursByAgencyId(agency.getId()))
+                .build();
+    }
+
+
 }

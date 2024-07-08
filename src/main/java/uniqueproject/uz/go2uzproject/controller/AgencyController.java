@@ -44,4 +44,9 @@ public class AgencyController { // admin controller
                 .body(agencyService.createAgency(agencyRequest, UUID.fromString(principal.getName())));
     }
 
+    @GetMapping("/get-all-agencies")
+    public ResponseEntity<List<AgencyResponse>> getAllAgencies() {
+       return ResponseEntity.ok(agencyService.getAll());
+    }
+
 }

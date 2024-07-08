@@ -15,7 +15,6 @@ public class AgencyResponse {
     private UUID id;
     private String name;
     private List<TourResponse> tours;
-    private Integer countOfOrders;
     private Double rating;
 }
 

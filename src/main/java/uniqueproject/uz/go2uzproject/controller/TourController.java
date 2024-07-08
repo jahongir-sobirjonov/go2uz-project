@@ -58,7 +58,7 @@ public class TourController {
         return ResponseEntity.ok(tourService.getAll());
     }
 
-    @GetMapping("/get-tours-by-agencId{agencyId}")
+    @GetMapping("/get-tours-by-agencyId{agencyId}")
     public ResponseEntity<List<TourResponse>> getToursByAgencyId(@PathVariable UUID agencyId) {
         return ResponseEntity.ok(tourService.getToursByAgencyId(agencyId));
     }
