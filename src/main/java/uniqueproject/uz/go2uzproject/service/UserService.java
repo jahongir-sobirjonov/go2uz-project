@@ -10,6 +10,8 @@ import uniqueproject.uz.go2uzproject.exception.DataNotFoundException;
 import uniqueproject.uz.go2uzproject.repository.UserRepository;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static uniqueproject.uz.go2uzproject.entity.enums.UserRole.*;
@@ -32,7 +34,7 @@ public class UserService {
 
     public  <T> T me(Principal principal) {
         UserEntity userEntity = userRepository.findById(UUID.fromString(principal.getName()))
-                .orElseThrow(() -> new DataNotFoundException("User not found!"));;
+                .orElseThrow(() -> new DataNotFoundException("User not found!"));
         UserRole role = userEntity.getRole();
         if (role == AGENCY){
             UserResponse adminResponse = modelMapper.map(userEntity, UserResponse.class);
@@ -56,4 +58,13 @@ public class UserService {
     }
 
 
+    public List<UserResponse> getAll() {
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (UserEntity userEntity : userRepository.findAll()) {
+            UserResponse userResponse = modelMapper.map(userEntity, UserResponse.class);
+            userResponse.setRole(userEntity.getRole());
+            userResponses.add(userResponse);
+        }
+        return userResponses;
+    }
 }

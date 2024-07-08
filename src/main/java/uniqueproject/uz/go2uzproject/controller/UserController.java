@@ -10,6 +10,7 @@ import uniqueproject.uz.go2uzproject.dto.response.UserResponse;
 import uniqueproject.uz.go2uzproject.entity.enums.UserRole;
 import uniqueproject.uz.go2uzproject.service.UserService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,7 +40,10 @@ public class UserController {
         return authentication.getName();
     }
 
+    @GetMapping("/get-all-users")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAll());
 
-
+    }
 
 }
