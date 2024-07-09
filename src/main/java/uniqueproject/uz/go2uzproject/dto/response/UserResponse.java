@@ -3,7 +3,7 @@ package uniqueproject.uz.go2uzproject.dto.response;
 import lombok.*;
 import uniqueproject.uz.go2uzproject.entity.UserType;
 import uniqueproject.uz.go2uzproject.entity.enums.UserRole;
-
+import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
