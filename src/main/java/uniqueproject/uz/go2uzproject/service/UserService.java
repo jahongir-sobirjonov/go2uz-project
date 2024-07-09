@@ -62,6 +62,7 @@ public class UserService {
         List<UserResponse> userResponses = new ArrayList<>();
         for (UserEntity userEntity : userRepository.findAll()) {
             UserResponse userResponse = modelMapper.map(userEntity, UserResponse.class);
+            userResponse.setId(userEntity.getId());
             userResponse.setRole(userEntity.getRole());
             userResponses.add(userResponse);
         }
