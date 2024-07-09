@@ -10,6 +10,7 @@ import uniqueproject.uz.go2uzproject.entity.enums.UserRole;
 @Setter
 @Builder
 public class UserResponse {
+    private UUID id;
     private String name;
     private String surname;
     private String city;
