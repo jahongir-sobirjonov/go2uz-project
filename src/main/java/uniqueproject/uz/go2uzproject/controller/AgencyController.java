@@ -27,7 +27,7 @@ public class AgencyController { // admin controller
        return agencyService.getById(id);
    }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @GetMapping("/user-agencies")
     public ResponseEntity<List<AgencyResponse>> getUserAgencies(@RequestParam UUID userId) {
         List<AgencyResponse> agencies = agencyService.getAgenciesByUserId(userId);
