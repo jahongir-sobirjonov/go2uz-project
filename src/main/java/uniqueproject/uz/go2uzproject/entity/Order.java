@@ -32,7 +32,6 @@ public class Order extends BaseEntity {
 
     private LocalDate orderDate;
 
-//    private Integer seatsBooked;
     private Double totalCost;
 
     private String url;
