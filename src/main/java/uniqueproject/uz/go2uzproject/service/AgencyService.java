@@ -32,14 +32,6 @@ public class AgencyService {
     }
 
     public List<AgencyResponse> getAgenciesByUserId(UUID adminId) {
-//        List<Agency> agencies = agencyRepository.findByOwnerId(userId);
-//        return agencies.stream().map(agency -> new AgencyResponse(
-//                agency.getName(),
-//                agency.getTours(),
-//                agency.getServiceTypes(),
-//                agency.getCountOfOrders(),
-//                agency.getRating()
-//        )).collect(Collectors.toList());
         List<Agency> byOwnerId = agencyRepository.findByOwnerId(adminId);
         return modelMapper.map(byOwnerId, new TypeToken<List<AgencyResponse>>() {
         }.getType());
