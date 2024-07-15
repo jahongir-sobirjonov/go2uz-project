@@ -13,12 +13,10 @@ import uniqueproject.uz.go2uzproject.exception.DataAlreadyExistsException;
 import uniqueproject.uz.go2uzproject.exception.DataNotFoundException;
 import uniqueproject.uz.go2uzproject.repository.AgencyRepository;
 import uniqueproject.uz.go2uzproject.repository.UserRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class AgencyService {
