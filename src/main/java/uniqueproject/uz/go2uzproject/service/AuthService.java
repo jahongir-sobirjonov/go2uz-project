@@ -17,10 +17,7 @@ import uniqueproject.uz.go2uzproject.exception.DataAlreadyExistsException;
 import uniqueproject.uz.go2uzproject.exception.DataNotFoundException;
 import uniqueproject.uz.go2uzproject.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-
 import java.util.UUID;
-
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
