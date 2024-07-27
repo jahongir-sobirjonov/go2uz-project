@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_IP:localhost}:${DB_PORT:5432}/${DB_NAME:go2uz}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:1}
+    url: jdbc:postgresql://localhost:5432/go2uz_db
+    username: go2uz_user
+    password: 1
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -10,8 +10,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    format-sql: true
+        show_sql: true
+        format_sql: true
 
   mail:
     host: smtp.gmail.com
