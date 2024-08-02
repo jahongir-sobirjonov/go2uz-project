@@ -35,5 +35,10 @@ public class AuthController {
     public JwtResponse refresh(@RequestBody String refreshToken) {
         return authService.refreshToken(refreshToken);
     }
+
+    @GetMapping("/get-test")
+    public String test(){
+        return "Working";
+    }
 }
 
